@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,183 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
+
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+                    
+
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+            <div class="post-content">
+                
+
+<h1 id="serverless-app作成ツール-up-を利用してみた">Serverless App作成ツール Up を利用してみた</h1>
 
-			
+<h2 id="概要">概要</h2>
 
-			
+<p>up と呼ばれるツールを利用してみました。<br />
+(Introductionをそのまま試してみただけです。)</p>
 
-			
+<p><a href="https://github.com/apex/up">https://github.com/apex/up</a></p>
 
-			
+<h2 id="upとは">upとは?</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>Serverless Applicationを簡単に作成、デブロイできるツールです。<br />
+現状の構築環境と方式は、下記のとおりです。
+- 構築環境
+  - AWS
+- 方式
+  - API GateWay + AWS Lambda</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h3 id="対応言語">対応言語</h3>
 
-			
+<p>個人的にはGolangに対応しているのが良いですね。<br />
+(Lambda自体はまだ、Golang対応していないので)
+- Node.js
+- Golang (← GOOD)
+- Python
+- Crystal
+- 静的サイト</p>
 
-			
+<h3 id="手順">手順</h3>
 
-			
+<p><a href="https://apex.github.io/up/">こちらのサイト</a> に記載のまんまです。</p>
 
-			
+<ol>
+<li><p>Install
+curl直接 or npm
+```sh</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
+<h1 id="curl版">curl版</h1>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>% curl -sfL <a href="https://raw.githubusercontent.com/apex/up/master/install.sh">https://raw.githubusercontent.com/apex/up/master/install.sh</a> | sh</p></li>
+</ol>
 
-			
+<h1 id="npm版-内部で上記curlを叩いているだけです">npm版 (内部で上記curlを叩いているだけです)</h1>
 
-			
+<p>% npm i -g up</p>
 
-			
+<pre><code>2. AWS Credenstialsの設定  
+`~/.aws/credentials` に追記が楽かと思います。  
+</code></pre>
 
-			
+<p>[go-up-test]
+aws_access_key_id = xxxxxxxx
+aws_secret_access_key = xxxxxxxxxxxxxxxxxxxxxxxx</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
+<pre><code>3. `up.json`(設定ファイル)作成  
+必須の項目は、`profile`のみです。  
+`~/.aws/credentials` で設定したprofile名と合わせてください。  
+```json
+{
+    &quot;profile&quot;: &quot;go-up-test&quot;,
+    &quot;regions&quot;: [&quot;ap-northeast-1&quot;]
+}
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<ol>
+<li>好きな言語でサーバー側の処理を記載
+```go
+package main</li>
+</ol>
 
-			
+<p>import (
+        &ldquo;fmt&rdquo;
+        &ldquo;log&rdquo;
+        &ldquo;net/http&rdquo;
+        &ldquo;os&rdquo;
+)</p>
 
-			
+<p>func main() {
+        addr := &ldquo;:&rdquo; + os.Getenv(&ldquo;PORT&rdquo;)
+        http.HandleFunc(&ldquo;/&rdquo;, hello)
+        log.Fatal(http.ListenAndServe(addr, nil))
+}</p>
 
-			
+<p>func hello(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprint(w, &ldquo;Hello go-up-test&rdquo;)
+}</p>
 
-			
+<pre><code>5. Deploy  
+```sh
+# develop環境へのDeploy
+% up
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
+# production環境へのDeploy
+% up deploy production
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<ol>
+<li><p>確認
+```sh</p>
 
-			
+<h1 id="ブラウザでopen">ブラウザでOpen</h1>
 
-			
+<p>% up url &ndash;open</p></li>
+</ol>
 
-			
+<h1 id="clipbordにcopy">ClipbordにCopy</h1>
 
-			
+<p>% up url &ndash;copy</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
+<pre><code>```sh
+% curl &quot;https://xxxxxxx.execute-api.ap-northeast-1.amazonaws.com/development/&quot;
+Hello go-up-test
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h3 id="補足">補足</h3>
 
-			
+<ul>
+<li><code>up.json</code> に諸々の設定を加えることができそうです
 
-			
+<ul>
+<li>複数regionに作成</li>
+<li>Lambdaの設定</li>
+<li>環境変数</li>
+<li>CORS</li>
+<li>SSL証明</li>
+</ul></li>
 
-			
+<li><p><code>up logs</code> コマンドでログが見れます
+```sh</p>
 
-			
+<h1 id="past-5-minutes">past 5 minutes</h1>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
+<p>% up logs</p></li>
+</ul>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h1 id="real-time-log">real time log</h1>
 
-			
+<p>% up logs -f
+``<code>
+-</code>up stack delete` で作成したresourcesを全て削除できます</p>
 
-			
+<h3 id="サンプルコード">サンプルコード</h3>
 
-			
+<p><a href="https://github.com/midorigreen/go-up-test">https://github.com/midorigreen/go-up-test</a></p>
 
-			
+<h2 id="所感">所感</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
+<p>AWSの設定さえ終わっていれば、非常に簡単にServerless Appを作成できると感じました。Slack Commandが簡単に作れるようなので、試してみたいです。 (元々、SlackのSlash Commandを簡単に作れるという記事を見かけて、興味を持ちました。)</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h2 id="参考">参考</h2>
 
-			
+<ul>
+<li><a href="https://apex.github.io/up/">up</a></li>
+<li><a href="https://medium.freecodecamp.org/creating-serverless-slack-commands-in-minutes-with-up-f04ce0cfd52c">Creating serverless Slack commands in minutes with Go &amp; Up</a></li>
+</ul>
 
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +571,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

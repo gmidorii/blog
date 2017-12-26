@@ -3,17 +3,86 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://midorigreen.github.io/categories/</loc>
+    <loc>https://midorigreen.github.io/blog/posts/2017-05-27_junit/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-06-19_go-package/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-07-01_gosns/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-07-09_learn/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-08-06_k8s/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-09-18_up/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017_09_19_cors/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/posts/2017_12_09_shingle/</loc>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://midorigreen.github.io/</loc>
+    <loc>https://midorigreen.github.io/blog/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://midorigreen.github.io/tags/</loc>
+    <loc>https://midorigreen.github.io/blog/posts/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://midorigreen.github.io/blog/tags/</loc>
     <priority>0</priority>
   </url>
   

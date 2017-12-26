@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,273 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+                    
 
-			
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="golangのsort処理について">GolangのSort処理について</h1>
 
-			
+<h2 id="golangのsort-処理">GolangのSort処理</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>GolangのSort処理について、まとめました。<br />
+(<code>// package sort</code> と記載があるサンプルコードは、Golang本体のソースコードです)</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h2 id="sort">Sort</h2>
 
-			
+<h3 id="sort-interface">Sort Interface</h3>
 
-			
+<p>Golangでは、<code>struct</code>のソートを行うため、<code>sort.Interface</code>を実装する必要があります。<br />
+(実際はGo1.8以降、下記の <code>sort.Slice()</code> を利用して、ソートすることができるようになりました。<a href="https://tylerchr.blog/golang-18-whats-coming/">参考</a>)</p>
 
-			
+<pre><code class="language-golang">// sort.Interface
+type Interface interface {
+    // Len is the number of elements in the collection.
+    Len() int
+    // Less reports whether the element with
+    // index i should sort before the element with index j.
+    Less(i, j int) bool
+    // Swap swaps the elements with indexes i and j.
+    Swap(i, j int)
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>メソッド</th>
+<th>特徴</th>
+</tr>
+</thead>
 
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+<tbody>
+<tr>
+<td>Len() int</td>
+<td>配列・リストの要素数</td>
+</tr>
+
+<tr>
+<td>Less(i, j int) bool</td>
+<td>i &lt; j を満たすかの真偽値</td>
+</tr>
+
+<tr>
+<td>Swap(i,j int)</td>
+<td>iとjの要素を入れ替える</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="sortの方法">Sortの方法</h3>
+
+<p>標準パッケージで対応している型は下記になります。
+- float64
+- int
+- string</p>
+
+<p>ここでは、ソートの方法をint配列をもとにみていきます。</p>
+
+<h4 id="sort-ints-a-int">sort.Ints(a int[])</h4>
+
+<p><code>Ints()</code> メソッドは、int[]型をソートするメソッドです。<br />
+これは、昇順(increacing)にソートされます。</p>
+
+<pre><code class="language-golang">nums := []int{4, 3, 2, 10, 8}
+sort.Ints(nums)
+fmt.Println(nums)
+
+// output: [2 3 4 8 10]
+</code></pre>
+
+<p>内部では、 <code>IntSlice</code> 型のstructにつめかえを行い、Sort関数を呼んでいます。<br />
+(<code>sort.Interface</code>を実装するルールは同じ)</p>
+
+<pre><code class="language-golang">// package sort
+
+// Ints sorts a slice of ints in increasing order.
+func Ints(a []int) { Sort(IntSlice(a)) }
+
+
+// IntSlice
+// Len,Less,Swapを実装したstruct
+
+// IntSlice attaches the methods of Interface to []int, sorting in increasing order.
+type IntSlice []int
+
+func (p IntSlice) Len() int           { return len(p) }
+func (p IntSlice) Less(i, j int) bool { return p[i] &lt; p[j] }
+func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+</code></pre>
+
+<h4 id="sort-reverse-data-interface-inteface">sort.Reverse(data Interface) Inteface</h4>
+
+<p><code>Reverse(data Interface)</code> は、sort.Interface型のソート方法を逆順に修正する関数です。<br />
+実際に内部で行っていることは、下記の２点です。<br />
+1. <code>reverse struct</code>に<code>struct</code>を詰め替える<br />
+<code>reverse struct</code> は、 <code>sort.Interface</code> を埋め込んでいます。</p>
+
+<pre><code class="language-golang">// package sort
+
+type reverse struct {
+	// This embedded Interface permits Reverse to use the methods of
+	// another Interface implementation.
+	Interface
+}
+
+// Reverse returns the reverse order for data.
+func Reverse(data Interface) Interface {
+	return &amp;reverse{data}
+}
+</code></pre>
+
+<ol>
+<li>Lessメソッドの引数をスワップ<br />
+<code>reverse struct</code> は、実装を参照したところ、
+<code>Less(i,j int) bool</code> のみを再実装しています。<br />
+これにより、比較条件を逆にすることで、逆順ソートを実現しています。
+<code>golang
+// Less returns the opposite of the embedded implementation's Less method.
+func (r reverse) Less(i, j int) bool {
+	return r.Interface.Less(j, i)
+}
+</code></li>
+</ol>
+
+<h4 id="sort-search-n-int-f-func-int-bool-int">sort.Search(n int, f func(int) bool) int</h4>
+
+<p>nの長さの配列内で<code>f()=true</code> となる最小のindexを返却します。<br />
+→ 配列内で指定のvalueがあるかどうかを調べる関数です。</p>
+
+<p>特徴
+- 条件を満たさなかった場合、nが返却
+- 一致を探すことも、ある数値以上の値を探すことも可能
+- binary search(二分探索)で検索
+  - ソートされた配列に対して実行しないと正確な結果が返却されない
+- 下記は<code>Search</code>のラッパー関数
+  - func SearchFloat64s(a []float64, x float64) int
+  - func SearchInts(a []int, x int) int
+  - func SearchStrings(a []string, x string) int</p>
+
+<pre><code class="language-golang">// package sort
+
+// binary sort の実装
+func Search(n int, f func(int) bool) int {
+	// Define f(-1) == false and f(n) == true.
+	// Invariant: f(i-1) == false, f(j) == true.
+	i, j := 0, n
+	for i &lt; j {
+		h := i + (j-i)/2 // avoid overflow when computing h
+		// i ≤ h &lt; j
+		if !f(h) {
+			i = h + 1 // preserves f(i-1) == false
+		} else {
+			j = h // preserves f(j) == true
+		}
+	}
+	// i == j, f(i-1) == false, and f(j) (= f(i)) == true  =&gt;  answer is i.
+	return i
+}
+
+// Int ラッパー関数
+func SearchInts(a []int, x int) int {
+	return Search(len(a), func(i int) bool { return a[i] &gt;= x })
+}
+</code></pre>
+
+<p>利用サンプル</p>
+
+<pre><code class="language-golang">
+nums := []int{4, 3, 2, 10, 8}
+x := 8
+
+// 事前にソートしておく
+sort.Ints(nums)
+// search asc
+index = sort.Search(len(nums), func(i int) bool {
+  return nums[i] &gt;= x
+})
+
+if index &lt; len(nums) &amp;&amp; nums[index] == x {
+  // nums[index] = 8 = x
+} else {
+  // x は nums[]中に存在しなかった
+  // だが、indexはnums[]の中にxをインサートする位置にある
+}
+</code></pre>
+
+<h4 id="sort-slice-slice-interface-less-func-i-j-int-bool">sort.Slice(slice interface{}, less func(i, j int) bool)</h4>
+
+<p>渡したsliceを、ソートする関数。<br />
+less関数で定義された順にソートされる。</p>
+
+<p>特徴
+- Go1.8以上
+- sort.Interfaceを実装していなくてもソートが可能となっている
+- stable sort(安定ソート)を保証していない
+  - sort.SliceStableを利用することで保証される</p>
+
+<h3 id="参考-実際のソート処理の中身について">(参考)実際のソート処理の中身について</h3>
+
+<p>sort.Sort(data sort.Interface) は渡されるデータによってソートの種別変えています。<br />
+流れとしては、基本的にクイックソートを利用して、条件を満たした際の他のソート手法に切り替わるといった挙動です。</p>
+
+<ul>
+<li>ヒープソート
+
+<ul>
+<li>条件: log(n+1)の整数値の2乗の深さとなった場合</li>
+<li>右に1ビットずつシフト演算して0になるまでの回数の2乗が最大の深さ(<code>maxDepth</code>)</li>
+<li><code>maxDepth</code>が0となったときに、ヒープソートに切り替わる
+```go
+// package golang</li>
+</ul></li>
+</ul>
+
+<p>// Switch to heapsort if depth of 2*ceil(lg(n+1)) is reached.</p>
+
+<pre><code>- シェルソート
+  - 条件: スライスが12より短い場合
+  ```go
+  // package golang
+
+  // Use ShellSort for slices &lt;= 12 elements
+</code></pre>
+
+<ul>
+<li>クイックソート
+
+<ul>
+<li>条件: 上記条件に当てはまらない場合</li>
+</ul></li>
+</ul>
+
+<h2 id="まとめ">まとめ</h2>
+
+<p>Golangのsortパッケージについて、学びました。<br />
+実際のソート処理の中身までは、深く追求しませんでしたが、<br />
+ソートを行う利用方法については触れられたかなと思います。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://golang.org/pkg/sort/">公式ドキュメント</a><br />
+<a href="http://mattn.kaoriya.net/software/lang/go/20161004092237.htm">golang の sort インタフェース難しい問題が解決した</a></p>
+
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +661,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

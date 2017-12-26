@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,204 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+                    
 
-			
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="gopackage">Gopackage</h1>
 
-			
+<h2 id="golangのパッケージ構成について">Golangのパッケージ構成について</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>golangで開発するにあたって、パッケージ構成がよくわからなかったため、調べてみました。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>当記事では、下記に焦点をあてて調べてみました。
+- packageの分け方
+- pacakge内でのファイルの分割
+- ファイル内のコードの書き方</p>
 
-			
+<h2 id="パッケージ構成">パッケージ構成</h2>
 
-			
+<p><a href="https://twitter.com/benbjohnson">@benbjohnson</a> さんの<a href="https://medium.com/@benbjohnson/standard-package-layout-7cdbc8391fc1">記事</a>を参考とした例です。</p>
 
-			
+<h3 id="good-practice-by-benbjohnson-https-twitter-com-benbjohnson">Good Practice (by <a href="https://twitter.com/benbjohnson">@benbjohnson</a>)</h3>
 
-			
+<p>下記の4点を考慮したアプローチ</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
+<ol>
+<li>Root package is for domain types</li>
+<li>Group subpackages by dependency</li>
+<li>Use a shared mock subpackage</li>
+<li>Main package ties together dependencies</li>
+</ol>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h4 id="1-root-package-is-for-domain-types">1. Root package is for domain types</h4>
 
-			
+<p>ドメインとは、データとプロセスがどのように相互作用を起こすかを記述する、高次元の言語のことです。<br />
+ドメインは、技術的なバックグラウンドに依存することはありません。</p>
 
-			
+<p>Root packageには、このドメインタイプを配置します。Root package内は、<br />
+simpleな<code>struct</code>と<code>stuct</code>の振る舞いを定義した<code>interface</code>のみで構成されます。</p>
 
-			
+<p><code>The root package should not depend on any other package in your application!</code><br />
+→ Root packageはアプリケーション上の他のいかなるパッケージにも依存すべきでない</p>
 
-			
+<p><code>ドメイン = User</code> の場合</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
+<pre><code class="language-go">package app
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+type User struct {
+  ID   int
+  Name string
+}
 
-			
+type UserService interface {
+  User(id int) (*User, error)
+  UpdateUser(id int, name string) error
+}
+</code></pre>
 
-			
+<h4 id="2-group-subpackages-by-dependency">2. Group subpackages by dependency</h4>
 
-			
+<p>Root packageにて、外部ドメインとの依存性を持てない<br />
+→ Subpackageにて依存性をもたせます<br />
+Subpackageは、ドメインと実装のアダプターとして存在しています。<br />
+このように実装することで、テストの単純性と他のDBが追加された場合の実装の容易性につながります。</p>
 
-			
+<p>Userデータの保持が<code>MySQL</code> の場合</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
+<pre><code class="language-go">package mysql
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+import (
+  &quot;database/sql&quot;
 
-			
+  &quot;github.com/midorigreen/app&quot;
+  _ &quot;github.com/go-sql-driver/mysql&quot;
+)
 
-			
+// implemented app.UserService
+type UserService struct {
+  DB *sql.DB
+}
 
-			
+func (s *UserService) User(id int) (*app.User, error) {
+  var u app.User
+  row := db.QueryRow(`SELECT id, name FROM users WHERE id = $1`, id)
+  if row.Scan(&amp;u.ID, &amp;u.Name); err != nil {
+    return nil, err
+  }
+  return &amp;u, nil
+}
+</code></pre>
 
-			
+<h4 id="3-use-a-shared-mock-subpackage">3. Use a shared mock subpackage</h4>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
+<p>ドメイン<code>interface</code>利用により、依存性を分離することができました。<br />
+ドメイン <code>interface</code> の実装をモックとして、作成することで処理ごとに<br />
+実装をinjectすることが可能となります。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>モック作成例</p>
 
-			
+<pre><code class="language-go">package mock
 
-			
+import &quot;github.com/midorigreen/app&quot;
 
-			
+// UserService is mock implementation of app.UserService
+type UserService struct {
+  UserFn      func(id int) (*app.User, error) // 処理ごとに実装をInject
+  UserInvoked bool
+}
 
-			
+func (u *UserService) User(id int) (*app.User, error) {
+  // mark function invoked
+  UserInvoked = true
+  return u.UserFn(id)
+}
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
+<h4 id="4-main-package-ties-together-dependencies">4. Main package ties together dependencies</h4>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>全ての依存性をもつパッケージを孤立化させられたので、後は結びつける必要があります。<br />
+この役割をはたすのが、<code>main</code> pacakgeです。<br />
+<code>main</code> packageでは、objectにどの依存性を入れるのかを選ぶ役割があります。</p>
 
-			
+<pre><code class="language-go">package main
 
-			
+import (
+  &quot;log&quot;
+  &quot;os&quot;
 
-			
+  &quot;github.com/midorigreen/app&quot;
+  &quot;github.com/midorigreen/mysql&quot;
+)
 
-			
+func main() {
+  db, err := mysql.Open(os.Getenv(&quot;DB&quot;))
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer db.Close()
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
+  // create service
+  us := &amp;mysql.UserService{DB: db}
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+  // etc
+}
+</code></pre>
 
-			
+<h3 id="補足-イマイチなアプローチ">(補足) イマイチなアプローチ</h3>
 
-			
+<h4 id="1-モノリシックなパッケージ">#1 モノリシックなパッケージ</h4>
 
-			
+<p>全てのコードをひとつのパッケージに詰め込む方式<br />
+→ 小さなアプリケーションに対しては十分にうまくいきます。</p>
 
-			
+<h4 id="2-機能-function-ごとにグルーピング">#2 機能(function)ごとにグルーピング</h4>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
+<p>機能ごとに、処理をグルーピングすることで構成する方式</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>構成例
+- handler : ハンドラを集めたパッケージ
+- model : モデルを集めたパッケージ
+- controller : コントローラを集めたパッケージ</p>
 
-			
+<p>ただし、この手法には欠点が２点ほど存在しています。
+1. 命名<br />
+<code>handler.XXXHandler</code> のように名前が重複してしまう。
+2. 循環参照<br />
+パッケージ同士で参照しあい、循環参照(circular dependencies)を起こしてしまう。<br />
+(1方向のみの依存関係をもつ場合のみしか、有効ではない手法)</p>
 
-			
+<h4 id="3-モジュールごとのグルーピング">#3 モジュールごとのグルーピング</h4>
 
-			
+<p>モジュールごとにグルーピングをする方式</p>
 
-			
+<p>こちらも同様に下記が欠点です
+1. 命名<br />
+<code>users.User</code> のように名前が重複してしまう
+2. 循環参照</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
+<h2 id="参考">参考</h2>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p><a href="https://medium.com/@benbjohnson/standard-package-layout-7cdbc8391fc1">Standard Package Layout</a><br />
+<a href="http://allishackedoff.hatenablog.com/entry/2016/08/23/015016">【翻訳】【Golang】標準的なパッケージのレイアウト</a></p>
 
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +592,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

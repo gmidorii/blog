@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,113 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+                    
 
-			
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="ijaas">ijaas</h1>
 
-			
+<h2 id="概要">概要</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>ijaasを導入に当たって、変なところで詰まったので残しておきます。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h2 id="ijaasとは">ijaasとは</h2>
 
-			
+<p><a href="https://github.com/google/ijaas">https://github.com/google/ijaas</a></p>
 
-			
+<blockquote>
+<p>Make IntelliJ as a Java server that does autocompletion for Vim.</p>
+</blockquote>
 
-			
+<p>IntelliJをサーバーとして立てて、<code>Vim</code> からAPI経由で各種機能を<br />
+利用できるようにしている模様です。<br />
+基本は、 <code>README.md</code> に記載の通りの手順で問題ないはずです。</p>
 
-			
+<h2 id="詰まった点">詰まった点</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
+<h3 id="1-pluginがinstallできない">1. PluginがInstallできない</h3>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p><code>Setting &gt; Plugins &gt; install plugin from disk</code> 実行時に、下記エラーが発生</p>
 
-			
+<p>画像</p>
 
-			
+<h4 id="解消">解消</h4>
 
-			
+<p>IntelliJのバージョンが合ってなかったため、発生していた模様です。<br />
+<code>build.gradle</code></p>
 
-			
+<pre><code class="language-groovy">def intellijVersion = 'IC-2017.1.5'
+if (project.hasProperty('intellij.version')) {
+  intellijVersion = getProperty('intellij.version')
+}
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
+<p><code>intellij.version</code> で切り替えができる模様のため、<br />
+<code>build.properties</code> を追加して上げれば良いです。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<pre><code>intellij.version=IC-2017.2.6
+</code></pre>
 
-			
+<h3 id="2-intellij上からbuildpluginするとidea取得で失敗">2. IntelliJ上からbuildPluginするとIdea取得で失敗</h3>
 
-			
+<p>S3より、Ideaを取得する部分で失敗していました。</p>
 
-			
+<h4 id="解消-1">解消</h4>
 
-			
+<p>コンソールより実行で解消できました。</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
+<pre><code class="language-sh">% gradle buildPlugin
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h3 id="3-neovimから実行できない">3. NeoVimから実行できない</h3>
 
-			
+<p><code>ch_open</code> がNeoVimに実装されていない(?) 関係上、利用できませんでした。
+(IntelliJへの接続に利用しているため、全般の機能が利用不可です。)</p>
 
-			
+<pre><code class="language-vim">if exists(&quot;$IJAAS_PORT&quot;)
+  let s:ch = ch_open('localhost:' . $IJAAS_PORT)
+else
+  let s:ch = ch_open('localhost:5800')
+endif
+</code></pre>
 
-			
+<h4 id="解消-2">解消</h4>
 
-			
+<p><code>Vim</code> を使う。</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
+<h3 id="4-保存時の-ijaas-buf-write-post-でtimeout">4. 保存時の <code>ijaas#buf_write_post()</code> でTimeout</h3>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>一旦コメントアウトしております。<br />
+( <code>complete()</code> や <code>organize_import()</code> は利用できました。)</p>
 
-			
+<h3 id="5-intellijで該当projectを起動していないと動作しない">5. IntelliJで該当Projectを起動していないと動作しない</h3>
 
-			
+<p>該当ProjectをIntelliJで開いた状態で、利用する必要があるみたいです。</p>
 
-			
+<h2 id="所感">所感</h2>
 
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+<p>まだ、実用的なコードで試せてないですが、<br />
+オートコンプリートはきれいに動作してました。<br />
+その他の機能に関しては、上手く動かせない部分もありました。<br />
+(機能を理解できていないからかと..)</p>
+
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +501,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

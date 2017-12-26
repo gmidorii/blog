@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,186 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+                    
 
-			
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="vim-goの便利コマンド一覧">vim-goの便利コマンド一覧</h1>
 
-			
+<h2 id="概要">概要</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>Goを開発している際に、vim-goを利用しています。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p><a href="https://github.com/fatih/vim-go">https://github.com/fatih/vim-go</a></p>
 
-			
+<p>最低限のコマンドしか利用できていなかったため、<br />
+便利なコマンドを再洗い出ししてみます。<br />
+(個人的なまとめの意味合いが強いです。)</p>
 
-			
+<h2 id="commands">Commands</h2>
 
-			
+<p>下記を参照しております。<br />
+<a href="https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt">https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt</a></p>
 
-			
+<h3 id="gorun">:GoRun</h3>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
+<p><code>go run</code> コマンドに相当します。<br />
+vim上から実行できるところが便利です。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h3 id="gobuild">:GoBuild</h3>
 
-			
+<p><code>go build</code> コマンドに相当します。build後のバイナリは排出しないです。<br />
+buildが成功するかどうかを確認する際に利用すると便利です。<br />
+成功すると、下記のように出力されます。</p>
 
-			
+<pre><code>vim-go: SUCCESS
+</code></pre>
 
-			
+<p>失敗すると、quickfix windowに一覧が出力されます。</p>
 
-			
+<pre><code>1 main.go|16| syntax error: unexpected semicolon or newline, expecting comma or }
+Quickfix  go build -i . errors
+vim-go: FAILED
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
+<h3 id="godef">:GoDef</h3>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>カーソル以下の、宣言元にjumpできます。<br />
+実際の実装がどうなっているか確認したりする際に利用します。<br />
+<code>gd</code> で同等の動作をします。<br />
+(基本的には、 <code>gd</code> で移動することが多い印象です。)</p>
 
-			
+<h3 id="gocallers">:GoCallers</h3>
 
-			
+<p>カーソル以下のfuncの、呼び出し元を一括検索できます。<br />
+(ファイル全検索していたのが、馬鹿らしく思えます..)<br />
+<em>注意点</em> として、複数packageで検索したい場合は、 <code>:GoGuruScope</code> でスコープを設定します。<br />
+(どのディレクトリ以下で検索をかけたいかを設定するイメージです。)</p>
 
-			
+<pre><code>:GoGuruScope github.com/midorigreen/gprof
+</code></pre>
 
-			
+<p>Sample: selectPeco()のカーソル上で</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
+<pre><code>:GoCallers
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>quickfix window</p>
 
-			
+<pre><code>1 main.go|93 col 6| github.com/midorigreen/gmd.selectPeco is called from these 3 sites:
+2 /Users/midori/src/golang/src/github.com/midorigreen/gmd/exec.go|28 col 28| static function call from github.com/midorigreen/gmd.cmdExec
+3 /Users/midori/src/golang/src/github.com/midorigreen/gmd/hist.go|38 col 28| static function call from github.com/midorigreen/gmd.cmdHist
+4 /Users/midori/src/golang/src/github.com/midorigreen/gmd/del.go|29 col 25| static function call from github.com/midorigreen/gmd.cmdDel
+</code></pre>
 
-			
+<h3 id="gocallstack">:GoCallstack</h3>
 
-			
+<p>カーソル以下のfuncのcallstackがquickfix windowで見れます。<br />
+(こちらも <code>:GoGuruScope</code> の指定が必要です。)</p>
 
-			
+<pre><code>1 main.go|120 col 7| Found a call path from root to github.com/midorigreen/gmd.run
+2 main.go|120 col 6| github.com/midorigreen/gmd.run
+3 main.go|138 col 13| static function call from github.com/midorigreen/gmd.main
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
+<h3 id="gotest">:GoTest</h3>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>テストを実行します。</p>
 
-			
+<h3 id="gotestfunc">:GoTestFunc</h3>
 
-			
+<p>カーソル以下のtest funcのみテストを実行します。</p>
 
-			
+<h3 id="godoc">:GoDoc</h3>
 
-			
+<p>カーソル以下のGoDocを別windowで参照することができます。
+(Shift+k と同等の認識です。)</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
+<h3 id="godocbrowser">:GoDocBrowser</h3>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p>カーソル以下のGoDocをブラウザ上で参照することができます。<br />
+わざわざGoDocを検索する手間が省けます。</p>
 
-			
+<h3 id="range-goaddtags">[range]:GoAddTags</h3>
 
-			
+<p>range指定した、structにタグを自動で追加してくれます。
+<code>Before</code></p>
 
-			
+<pre><code class="language-golang">type Prof struct {
+    Cores     []Core
+    Model     string
+    ModelName string
+    CacheSize int32 
+}
+</code></pre>
 
-			
+<p><code>After</code> (defaultはjsonタグ)</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
+<pre><code class="language-golang">type Prof struct {
+    Cores     []Core `json:&quot;cores&quot;`
+    Model     string `json:&quot;model&quot;`
+    ModelName string `json:&quot;model_name&quot;`
+    CacheSize int32  `json:&quot;cache_size&quot;`
+}
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<ul>
+<li>dbタグ = <code>[range]:GoAddTags db</code></li>
+<li>omitempty = <code>[range]:GoAddTags json,omitempty</code></li>
+</ul>
 
-			
+<h3 id="gofillstruct">:GoFillStruct</h3>
 
-			
+<p>structの宣言時に、literalをdefault値で埋めてくれます。<br />
+初期化時に、各literalを打たなくて良いのが楽です。<br />
+<code>Before</code></p>
 
-			
+<pre><code>prof := Prof{}
+</code></pre>
 
-			
+<p><code>After</code></p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
+<pre><code class="language-golang">prof := Prof{
+    Cores:     nil,
+    Model:     &quot;&quot;,
+    ModelName: &quot;&quot;,
+    CacheSize: 0,
+}
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h3 id="gorename-to">:GoRename [to]</h3>
 
-			
+<p>カーソル以下の文字を、一括でrenameしてくれます。<br />
+呼び出し元も、合わせて修正してくれろところが便利です。<br />
+<code>func</code>, <code>struct</code>, <code>変数名</code> のそれぞれ動作可能です。</p>
 
-			
+<h3 id="goplay">:GoPlay</h3>
 
-			
+<p>開いているファイルをGo Playgroundで見ることができます。<br />
+サンプルコード書いて、展開する場合とかに便利そうです。</p>
 
-			
+<h2 id="所感">所感</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
+<p>他にもまだまだ眠ってそうですが、追加され次第、追記していく形を取ろうかと思います。<br />
+ここまで揃っていると、vimで十分な効率で開発できそうです。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +574,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

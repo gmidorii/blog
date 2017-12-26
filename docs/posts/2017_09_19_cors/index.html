@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title></title>
+  <meta name="description" content="">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,335 +374,139 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-27_junit/"></a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">01-01-0001</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+                    
 
-			
+                    
+                </p>
+                <h1></h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="corsについて">CORSについて</h1>
 
-			
+<h2 id="概要">概要</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-05-31_golang-sort/"></a>
+<p>今更ながら、CORSについてちゃんと知っておこうと思い、まとめました。</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h2 id="corsとは">CORSとは</h2>
 
-			
+<ul>
+<li>Cross Origin Resource Sharingの略</li>
+<li>現在のブラウザではSame Origin Policyが適用されている
 
-			
+<ul>
+<li>Webサイト上の情報を別の悪意のあるサイトに流用されないようにする仕組み</li>
+</ul></li>
+<li>ただ信頼性のあるサイトに対してのみアクセスを許可する仕組み(= CORS)</li>
+</ul>
 
-			
+<h3 id="仕組み">仕組み</h3>
 
-			
+<h4 id="1-originを超えたリクエストする際のrequest-headerにはoriginが付与される">1. Originを超えたリクエストする際のRequest HeaderにはOriginが付与される</h4>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-01_golang-tokyo6/"></a>
+<pre><code>GET /hoge HTTP/1.1
+Origin: https://xxxx.com
+</code></pre>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<h4 id="2-originが信頼できるサイトであれば-response-headerに-access-control-allow-origin-を付与する">2. Originが信頼できるサイトであれば、Response Headerに<code>Access-Control-Allow-Origin</code>を付与する</h4>
 
-			
+<pre><code>HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://xxxx.com
+</code></pre>
 
-			
+<p>(補足)<br />
+どのサイトからのOrigin超えのアクセス許可をしたい場合は、ワイルドカードが利用できる</p>
 
-			
+<pre><code>HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+</code></pre>
 
-			
+<h3 id="nginxでcorsを実現する方法">nginxでCORSを実現する方法</h3>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-15_bayeux/"></a>
+<ul>
+<li><p>add_headerを利用する</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<ul>
+<li><p>Response Headerにそのまま追記される</p>
 
-			
+<pre><code>http {
+server {
+listen       8080;
+server_name  localhost;
+charset UTF-8;
 
-			
+location /hoge/ {
+    proxy_http_version 1.1;
+    proxy_pass http://xxxxxx.com/api/;
 
-			
+    add_header Access-Control-Allow-Origin *;
+    add_header Access-Control-Allow-Methods &quot;POST, GET, OPTIONS&quot;;
+    add_header Access-Control-Allow-Headers &quot;Origin, Authorization, Accept&quot;;
+    add_header Access-Control-Allow-Credentials true
+}
+}
+}
+</code></pre></li>
+</ul></li>
+</ul>
 
-			
+<h3 id="golang-でproxyサーバーを作成">Golang でProxyサーバーを作成</h3>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-19_go-package/"></a>
+<p>※ Proxyの仕組みをきちんと使えていないNGコード</p>
 
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
+<p><a href="https://github.com/midorigreen/gproxy">https://github.com/midorigreen/gproxy</a></p>
 
-			
+<p>リクエストを受け取って、代わりにアクセスを実行します。</p>
 
-			
+<pre><code class="language-go">// 一部抜粋
 
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-06-25_sync-pool/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-01_gosns/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-07-09_learn/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-05_vim-go/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-06_k8s/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-08-16_machine-learning/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-09-18_up/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-19_ijaas/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017-11-4_vim-go-option/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_09_19_cors/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/2017_12_09_shingle/"></a>
-
-		  <p class="footnote">
-			<time datetime="01-01-0001T00:00:00Z">01-01-0001</time>
-
-			
-
-			
-
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+func proxyHandler(w http.ResponseWriter, r *http.Request) {
+        log.Println(r.URL)
+        if rProto := r.URL.Query().Get(&quot;proto&quot;); rProto != &quot;&quot; {
+                proto = rProto
+        }
+        host := r.URL.Query().Get(&quot;cors-host&quot;)
+        url := fmt.Sprintf(&quot;%s://%s%s&quot;, proto, host, r.URL)
+
+        ctx, cancel := context.WithTimeout(context.Background(), timeout)
+        defer cancel()
+        // リクエストしたい先へGET
+        body, err := corsGet(ctx, url)
+        if err != nil {
+                log.Println(err)
+                w.WriteHeader(http.StatusInternalServerError)
+                fmt.Fprint(w, &quot;Error&quot;)
+                return
+        }
+
+        // CORSを許可するようヘッダーに情報を追加
+        w.Header().Set(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;)
+        w.WriteHeader(http.StatusOK)
+        fmt.Fprint(w, body)
+}
+</code></pre>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://qiita.com/tomoyukilabs/items/81698edd5812ff6acb34">CORSまとめ</a></li>
+<li><a href="https://gist.github.com/uupaa/100554c1c879e114610b">nginx: Avoid CORS and reverse proxy settings</a></li>
+<li><a href="http://qiita.com/reiki4040/items/218438c6e32ba585fd99">nginxでレスポンスヘッダを書き換える</a></li>
+</ul>
+
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -725,7 +527,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>
