@@ -1,0 +1,3 @@
+[submodule "themes/template"]
+	path = themes/template
+	url = https://github.com/aos/temple.git

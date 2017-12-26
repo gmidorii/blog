@@ -1,0 +1,6 @@
+baseURL = "https://midorigreen.github.io/"
+languageCode = "jp"
+title = "Green Software Engineer Blog"
+theme = "template"
+canonifyurls = true
+publishDir = "docs"
