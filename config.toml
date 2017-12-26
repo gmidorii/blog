@@ -1,4 +1,4 @@
-baseURL = "https://midorigreen.github.io/"
+baseURL = "https://midorigreen.github.io/blog"
 languageCode = "jp"
 title = "Green Software Engineer Blog"
 theme = "template"
