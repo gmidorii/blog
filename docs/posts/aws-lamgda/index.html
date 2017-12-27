@@ -462,7 +462,7 @@ body {
 </ul></li>
 </ul>
 
-<h2 id="ロギング">ロギング</h2>
+<h2 id="メトリクスとログ">メトリクスとログ</h2>
 
 <h3 id="メトリクス">メトリクス</h3>
 
@@ -506,6 +506,72 @@ body {
 </tr>
 </tbody>
 </table>
+
+<h3 id="ロギング">ロギング</h3>
+
+<ul>
+<li>CloudWatch Logsへ全てのログは吐かれる</li>
+<li>ロググループ
+
+<ul>
+<li>aws/lambda/&lt;関数名&gt;</li>
+<li>関数内: context.logGroupName</li>
+</ul></li>
+<li>ログストリーム名
+
+<ul>
+<li>関数内: context.logStreamName</li>
+</ul></li>
+</ul>
+
+<h2 id="テスト">テスト</h2>
+
+<h3 id="ユニットテスト">ユニットテスト</h3>
+
+<ul>
+<li>特別なことをする必要はない</li>
+<li>おすすめ
+
+<ul>
+<li>「ユニットテストはローカル、それ以外はクラウド」</li>
+</ul></li>
+</ul>
+
+<h4 id="ローカル実行">ローカル実行</h4>
+
+<ul>
+<li>3点
+
+<ul>
+<li>Local Entry Point</li>
+<li>Event</li>
+<li>Context Object</li>
+</ul></li>
+<li>Entry Point
+```js
+exports.handler = (event, context, callback) =&gt; {
+	callback(null, &ldquo;Hello!&rdquo;)
+}</li>
+</ul>
+
+<p>event = &ldquo;&rdquo;
+context = &ldquo;&rdquo;
+callback = (error, result) =&gt; {
+	if (error != null) {
+		console.log(error)
+		process.exit(1)
+	}
+	console.log(result)
+	process.exit(0)
+}</p>
+
+<p>this.handler(event, context, callback)
+```
+- Event
+    - JSONファイルとして静的に作成する
+    - 実行時にファイル読み込みを実施する
+- Context Object
+    - 利用しないならエミュレート不要</p>
 
             </div>
         </div>
