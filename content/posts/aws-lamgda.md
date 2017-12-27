@@ -36,7 +36,7 @@ draft: false
 		- Lambda関数を呼び出す権限
 		- CLIを利用して付与
 
-## ロギング
+## メトリクスとログ
 ### メトリクス
 | Metrics           | 意味                                                                                       |
 | :-------------    | :----                                                                                      |
@@ -47,5 +47,48 @@ draft: false
 | Dead Letter Error | デッドレターキューエラー                                                                   |
 | Iterater Age      | ストリームに書き込まれてから読み出されるまでの時間                                         |
 
+### ロギング
+- CloudWatch Logsへ全てのログは吐かれる
+- ロググループ
+	- aws/lambda/<関数名>
+	- 関数内: context.logGroupName
+- ログストリーム名
+	- 関数内: context.logStreamName
+
+## テスト
+### ユニットテスト
+- 特別なことをする必要はない
+- おすすめ
+	- 「ユニットテストはローカル、それ以外はクラウド」
+
+#### ローカル実行
+- 3点
+	- Local Entry Point
+	- Event 
+	- Context Object
+- Entry Point
+```js
+exports.handler = (event, context, callback) => {
+	callback(null, "Hello!")
+}
+
+event = ""
+context = ""
+callback = (error, result) => {
+	if (error != null) {
+		console.log(error)
+		process.exit(1)
+	}
+	console.log(result)
+	process.exit(0)
+}
+
+this.handler(event, context, callback)
+```
+- Event
+	- JSONファイルとして静的に作成する
+	- 実行時にファイル読み込みを実施する
+- Context Object
+	- 利用しないならエミュレート不要
 
 
