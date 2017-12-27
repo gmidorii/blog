@@ -1,7 +1,7 @@
 ---
 title: "Aws Lamgda"
 date: 2017-12-27T22:02:03+09:00
-draft: true
+draft: false
 ---
 
 # AWS Lambda
@@ -46,5 +46,6 @@ draft: true
 | Throttles         | スロットリングされた回数                                                                   |
 | Dead Letter Error | デッドレターキューエラー                                                                   |
 | Iterater Age      | ストリームに書き込まれてから読み出されるまでの時間                                         |
+
 
 

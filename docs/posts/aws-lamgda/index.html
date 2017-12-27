@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Green Software Engineer Blog</title>
-  <meta name="description" content="Green Software Engineer Blog">
+  <title>Aws Lamgda</title>
+  <meta name="description" content="Aws Lamgda">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,8 +336,6 @@ body {
 
   
   
-  <link href="https://midorigreen.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Green Software Engineer Blog Feed" />
-  
 
   <meta name="generator" content="Hugo 0.31.1" />
   
@@ -376,35 +374,141 @@ body {
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="https://midorigreen.github.io/blog/posts/aws-lamgda/">Aws Lamgda</a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">12-27-2017</time>
+		            
+                    
+                    
 
-		  <p class="footnote">
-			<time datetime="12-27-2017T22:02:03&#43;09:00">12-27-2017</time>
+                    
 
-			
+                    
+                </p>
+                <h1>Aws Lamgda</h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
+<h1 id="aws-lambda">AWS Lambda</h1>
 
-			
+<p>著: 西谷圭介</p>
 
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
+<h2 id="lambda概要">Lambda概要</h2>
+
+<ul>
+<li>コンテナ技術を利用して実行されている</li>
+<li>プロセスをspwan可能
+
+<ul>
+<li>子プロセス生成+コマンド実行</li>
+</ul></li>
+<li>スレッド作成可能</li>
+<li>/tmpへIO可能
+
+<ul>
+<li>容量512MB</li>
+</ul></li>
+<li>メモリ使用量は最大3GB
+
+<ul>
+<li>メモリとCPU能力は比例している</li>
+</ul></li>
+<li>呼び出しタイプ
+
+<ul>
+<li>RequestResponse: 同期</li>
+<li>Event: 非同期</li>
+</ul></li>
+<li>DynamoDB
+
+<ul>
+<li>各テーブルに対して <code>Amazon DynamoDB Streams</code> を有効にする必要あり</li>
+<li>RequestResponse</li>
+</ul></li>
+<li>イベントソース
+
+<ul>
+<li>ストリームベース
+
+<ul>
+<li>対象をポーリングして変更等をトリガーに実行する
+
+<ul>
+<li>DynamoDB</li>
+<li>Kinesis</li>
+</ul></li>
+</ul></li>
+<li><a href="http://docs.aws.amazon.com/ja_jp/lambda/latest/dg/eventsources.html#eventsources-ddb-update">サンプル</a></li>
+</ul></li>
+<li>ポリシー
+
+<ul>
+<li>アイデンティティベース
+
+<ul>
+<li>IAMポリシー</li>
+<li>Lambda関数が利用可能な権限</li>
+</ul></li>
+<li>リソースベース
+
+<ul>
+<li>Lambda関数を呼び出す権限</li>
+<li>CLIを利用して付与</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2 id="ロギング">ロギング</h2>
+
+<h3 id="メトリクス">メトリクス</h3>
+
+<table>
+<thead>
+<tr>
+<th align="left">Metrics</th>
+<th align="left">意味</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">Invocations</td>
+<td align="left">Lambdaの呼び出し回数<br> スロットリングは含まれない</td>
+</tr>
+
+<tr>
+<td align="left">Dulation</td>
+<td align="left">所要時間<br> 初期化処理やグローバルスコープの実行時間は含まれない</td>
+</tr>
+
+<tr>
+<td align="left">Errors</td>
+<td align="left">実行した場合のエラー数<br> 下記は含まれない<br>- 同時実行数上限<br> - 関数の実行自体の失敗</td>
+</tr>
+
+<tr>
+<td align="left">Throttles</td>
+<td align="left">スロットリングされた回数</td>
+</tr>
+
+<tr>
+<td align="left">Dead Letter Error</td>
+<td align="left">デッドレターキューエラー</td>
+</tr>
+
+<tr>
+<td align="left">Iterater Age</td>
+<td align="left">ストリームに書き込まれてから読み出されるまでの時間</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
@@ -425,7 +529,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="https://midorigreen.github.io/blog/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>
