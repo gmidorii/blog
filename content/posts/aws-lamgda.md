@@ -36,6 +36,72 @@ draft: false
 		- Lambda関数を呼び出す権限
 		- CLIを利用して付与
 
+### バージョニング
+- バージョン指定可能
+- エイリアス指定可能
+	- エイリアスのバージョンを変更することでリリース
+	- 切り戻どしもエイリアス変更で完了
+- 運用
+	- Prod: v1.0
+	- Dev: $LATEST
+```sh
+# version発行
+aws lambda publish-version --function-name <関数名>
+
+# alias発行
+aws lambda create-alias \
+		--function-name <関数名> \
+		--name Prod \
+		--function-version 3
+
+aws lambda create-alias \
+		--function-name <関数名> \
+		--name Dev \
+		--function-version '$LATEST'
+
+# alias一覧
+aws lambda list-alias --function-name <関数名>
+
+# alias更新
+aws lambda update-alias \
+		--function-name <関数名> \
+		--name Prod \
+		--function-version 4
+```
+
+### デプロイパッケージの作成
+- デプロイパッケージ
+	- サードパーティのライブラリ等を利用する場は必須
+	- zip化してアップロードする
+	- S3にアップロードしたファイルを設定で読ませることも可能
+- Node.js
+	- npmで落としたパッケージごとzip
+	- package.json含む
+	- **ディレクトリ配下のみをzip化する**
+		- `zip -r package.zip ./*`
+```sh
+aws lambda update-function-code \
+		--function-name <関数名> \
+		--zip-file fileb://package.zip
+```
+
+### VPCアクセス
+- サブネット+セキュリティグループをLambdaに設定
+- 発火時にENIをVPC内に自動で作成する
+	- 作成のためレイテンシが発生
+	- 10~30秒程度
+- VPCアクセスする際は、インターネットに出れなくなる
+	- NAT Gatewayを利用して外への通路を開ける必要がある
+- 必要ポリシー(AWSLambdaVPCAccess)
+	- ec2:CreateNetworkInteface
+	- ec2:DescribeNetworkInteface
+	- ec2:DeleteNetworkInteface
+- IP固定
+	- グローバルIPアドレス固定が可能
+	- NAT Gatewayを利用する必要あり
+- アクセス元
+	- 固定するBest PracticeはSGの設定
+
 ## メトリクスとログ
 ### メトリクス
 | Metrics           | 意味                                                                                       |
@@ -90,5 +156,4 @@ this.handler(event, context, callback)
 	- 実行時にファイル読み込みを実施する
 - Context Object
 	- 利用しないならエミュレート不要
-
 
