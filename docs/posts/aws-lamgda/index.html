@@ -462,6 +462,106 @@ body {
 </ul></li>
 </ul>
 
+<h3 id="バージョニング">バージョニング</h3>
+
+<ul>
+<li>バージョン指定可能</li>
+<li>エイリアス指定可能
+
+<ul>
+<li>エイリアスのバージョンを変更することでリリース</li>
+<li>切り戻どしもエイリアス変更で完了</li>
+</ul></li>
+
+<li><p>運用</p>
+
+<ul>
+<li>Prod: v1.0</li>
+
+<li><p>Dev: $LATEST
+```sh</p>
+
+<h1 id="version発行">version発行</h1>
+
+<p>aws lambda publish-version &ndash;function-name &lt;関数名&gt;</p></li>
+</ul></li>
+</ul>
+
+<h1 id="alias発行">alias発行</h1>
+
+<p>aws lambda create-alias <br />
+		&ndash;function-name &lt;関数名&gt; <br />
+		&ndash;name Prod <br />
+		&ndash;function-version 3</p>
+
+<p>aws lambda create-alias <br />
+		&ndash;function-name &lt;関数名&gt; <br />
+		&ndash;name Dev <br />
+		&ndash;function-version &lsquo;$LATEST&rsquo;</p>
+
+<h1 id="alias一覧">alias一覧</h1>
+
+<p>aws lambda list-alias &ndash;function-name &lt;関数名&gt;</p>
+
+<h1 id="alias更新">alias更新</h1>
+
+<p>aws lambda update-alias <br />
+		&ndash;function-name &lt;関数名&gt; <br />
+		&ndash;name Prod <br />
+		&ndash;function-version 4</p>
+
+<pre><code>
+### デプロイパッケージの作成
+- デプロイパッケージ
+    - サードパーティのライブラリ等を利用する場は必須
+    - zip化してアップロードする
+    - S3にアップロードしたファイルを設定で読ませることも可能
+- Node.js
+    - npmで落としたパッケージごとzip
+    - package.json含む
+    - **ディレクトリ配下のみをzip化する**
+        - `zip -r package.zip ./*`
+```sh
+aws lambda update-function-code \
+		--function-name &lt;関数名&gt; \
+		--zip-file fileb://package.zip
+</code></pre>
+
+<h3 id="vpcアクセス">VPCアクセス</h3>
+
+<ul>
+<li>サブネット+セキュリティグループをLambdaに設定</li>
+<li>発火時にENIをVPC内に自動で作成する
+
+<ul>
+<li>作成のためレイテンシが発生</li>
+<li>10~30秒程度</li>
+</ul></li>
+<li>VPCアクセスする際は、インターネットに出れなくなる
+
+<ul>
+<li>NAT Gatewayを利用して外への通路を開ける必要がある</li>
+</ul></li>
+<li>必要ポリシー(AWSLambdaVPCAccess)
+
+<ul>
+<li>ec2:CreateNetworkInteface</li>
+<li>ec2:DescribeNetworkInteface</li>
+<li>ec2:DeleteNetworkInteface</li>
+</ul></li>
+<li>IP固定
+
+<ul>
+<li>グローバルIPアドレス固定が可能</li>
+<li>NAT Gatewayを利用する必要あり</li>
+</ul></li>
+<li>アクセス元
+
+<ul>
+<li>固定するBest PracticeはSGの設定</li>
+</ul></li>
+</ul>
+
 <h2 id="メトリクスとログ">メトリクスとログ</h2>
 
 <h3 id="メトリクス">メトリクス</h3>
