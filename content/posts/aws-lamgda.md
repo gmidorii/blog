@@ -44,6 +44,7 @@ draft: false
 - 運用
 	- Prod: v1.0
 	- Dev: $LATEST
+
 ```sh
 # version発行
 aws lambda publish-version --function-name <関数名>
@@ -79,6 +80,7 @@ aws lambda update-alias \
 	- package.json含む
 	- **ディレクトリ配下のみをzip化する**
 		- `zip -r package.zip ./*`
+
 ```sh
 aws lambda update-function-code \
 		--function-name <関数名> \
@@ -133,6 +135,7 @@ aws lambda update-function-code \
 	- Event 
 	- Context Object
 - Entry Point
+
 ```js
 exports.handler = (event, context, callback) => {
 	callback(null, "Hello!")
@@ -151,6 +154,7 @@ callback = (error, result) => {
 
 this.handler(event, context, callback)
 ```
+
 - Event
 	- JSONファイルとして静的に作成する
 	- 実行時にファイル読み込みを実施する

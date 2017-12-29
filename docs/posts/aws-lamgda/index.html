@@ -472,57 +472,62 @@ body {
 <li>エイリアスのバージョンを変更することでリリース</li>
 <li>切り戻どしもエイリアス変更で完了</li>
 </ul></li>
-
-<li><p>運用</p>
+<li>運用
 
 <ul>
 <li>Prod: v1.0</li>
-
-<li><p>Dev: $LATEST
-```sh</p>
-
-<h1 id="version発行">version発行</h1>
-
-<p>aws lambda publish-version &ndash;function-name &lt;関数名&gt;</p></li>
+<li>Dev: $LATEST</li>
 </ul></li>
 </ul>
 
-<h1 id="alias発行">alias発行</h1>
+<pre><code class="language-sh"># version発行
+aws lambda publish-version --function-name &lt;関数名&gt;
 
-<p>aws lambda create-alias <br />
-		&ndash;function-name &lt;関数名&gt; <br />
-		&ndash;name Prod <br />
-		&ndash;function-version 3</p>
+# alias発行
+aws lambda create-alias \
+		--function-name &lt;関数名&gt; \
+		--name Prod \
+		--function-version 3
 
-<p>aws lambda create-alias <br />
-		&ndash;function-name &lt;関数名&gt; <br />
-		&ndash;name Dev <br />
-		&ndash;function-version &lsquo;$LATEST&rsquo;</p>
+aws lambda create-alias \
+		--function-name &lt;関数名&gt; \
+		--name Dev \
+		--function-version '$LATEST'
 
-<h1 id="alias一覧">alias一覧</h1>
+# alias一覧
+aws lambda list-alias --function-name &lt;関数名&gt;
 
-<p>aws lambda list-alias &ndash;function-name &lt;関数名&gt;</p>
+# alias更新
+aws lambda update-alias \
+		--function-name &lt;関数名&gt; \
+		--name Prod \
+		--function-version 4
+</code></pre>
 
-<h1 id="alias更新">alias更新</h1>
+<h3 id="デプロイパッケージの作成">デプロイパッケージの作成</h3>
 
-<p>aws lambda update-alias <br />
-		&ndash;function-name &lt;関数名&gt; <br />
-		&ndash;name Prod <br />
-		&ndash;function-version 4</p>
+<ul>
+<li>デプロイパッケージ
 
-<pre><code>
-### デプロイパッケージの作成
-- デプロイパッケージ
-    - サードパーティのライブラリ等を利用する場は必須
-    - zip化してアップロードする
-    - S3にアップロードしたファイルを設定で読ませることも可能
-- Node.js
-    - npmで落としたパッケージごとzip
-    - package.json含む
-    - **ディレクトリ配下のみをzip化する**
-        - `zip -r package.zip ./*`
-```sh
-aws lambda update-function-code \
+<ul>
+<li>サードパーティのライブラリ等を利用する場は必須</li>
+<li>zip化してアップロードする</li>
+<li>S3にアップロードしたファイルを設定で読ませることも可能</li>
+</ul></li>
+<li>Node.js
+
+<ul>
+<li>npmで落としたパッケージごとzip</li>
+<li>package.json含む</li>
+<li><strong>ディレクトリ配下のみをzip化する</strong>
+
+<ul>
+<li><code>zip -r package.zip ./*</code></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<pre><code class="language-sh">aws lambda update-function-code \
 		--function-name &lt;関数名&gt; \
 		--zip-file fileb://package.zip
 </code></pre>
@@ -647,15 +652,15 @@ aws lambda update-function-code \
 <li>Event</li>
 <li>Context Object</li>
 </ul></li>
-<li>Entry Point
-```js
-exports.handler = (event, context, callback) =&gt; {
-	callback(null, &ldquo;Hello!&rdquo;)
-}</li>
+<li>Entry Point</li>
 </ul>
 
-<p>event = &ldquo;&rdquo;
-context = &ldquo;&rdquo;
+<pre><code class="language-js">exports.handler = (event, context, callback) =&gt; {
+	callback(null, &quot;Hello!&quot;)
+}
+
+event = &quot;&quot;
+context = &quot;&quot;
 callback = (error, result) =&gt; {
 	if (error != null) {
 		console.log(error)
@@ -663,15 +668,24 @@ callback = (error, result) =&gt; {
 	}
 	console.log(result)
 	process.exit(0)
-}</p>
+}
 
-<p>this.handler(event, context, callback)
-```
-- Event
-    - JSONファイルとして静的に作成する
-    - 実行時にファイル読み込みを実施する
-- Context Object
-    - 利用しないならエミュレート不要</p>
+this.handler(event, context, callback)
+</code></pre>
+
+<ul>
+<li>Event
+
+<ul>
+<li>JSONファイルとして静的に作成する</li>
+<li>実行時にファイル読み込みを実施する</li>
+</ul></li>
+<li>Context Object
+
+<ul>
+<li>利用しないならエミュレート不要</li>
+</ul></li>
+</ul>
 
             </div>
         </div>
