@@ -567,6 +567,75 @@ aws lambda update-alias \
 </ul></li>
 </ul>
 
+<h3 id="環境変数">環境変数</h3>
+
+<ul>
+<li>Node.jsでのアクセス方法
+
+<ul>
+<li><code>process.env.&lt;環境変数名&gt;</code></li>
+</ul></li>
+<li>合計4KB以下にしなければならない</li>
+<li>予約済みの環境変数有り</li>
+<li>バージョニングにて設定が固定される
+
+<ul>
+<li>コード</li>
+<li>環境変数</li>
+</ul></li>
+<li>KMSで暗号化される
+
+<ul>
+<li>独自キーを利用するとKMS分の料金がかかる</li>
+<li>Policy: <code>kms:Decrypt</code> が必要</li>
+<li>独自キーの利用がおすすめされている</li>
+</ul></li>
+</ul>
+
+<h3 id="エラーハンドリング">エラーハンドリング</h3>
+
+<ul>
+<li>イベントソースによって異なる</li>
+<li>ストリームベース
+
+<ul>
+<li>Kinesis or DynamoDB</li>
+<li>有効期限が切れるまでリトライされ続ける</li>
+<li>成功するまで次の処理は実行されない</li>
+</ul></li>
+<li>同期呼び出し
+
+<ul>
+<li>呼び出し元へエラーを返す</li>
+<li>リトライの集中による2次障害を避けるよう実装する
+
+<ul>
+<li>Exponential Backoff</li>
+<li>Jitter(ゆらぎ)をいれる</li>
+<li><a href="http://yoshidashingo.hatenablog.com/entry/2014/08/17/135017">参考</a></li>
+</ul></li>
+</ul></li>
+<li>非同期呼び出し
+
+<ul>
+<li>2回自動呼び出しされる</li>
+<li>デッドレターキューが構築
+
+<ul>
+<li>3回失敗するとSQS or SNSに通知される</li>
+<li>エラーを取りこぼさなくてすむようになっている</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h4 id="デッドレターキュー">デッドレターキュー</h4>
+
+<ul>
+<li>非同期処理に失敗した場合にフォローする仕組み</li>
+<li>Amazon SQS/SNSを登録しておく</li>
+<li>関数単位で設定可能</li>
+</ul>
+
 <h2 id="メトリクスとログ">メトリクスとログ</h2>
 
 <h3 id="メトリクス">メトリクス</h3>
