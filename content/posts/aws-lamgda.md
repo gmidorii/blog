@@ -219,3 +219,36 @@ this.handler(event, context, callback)
 - Context Object
 	- 利用しないならエミュレート不要
 
+
+### Node.js
+基本形
+```js
+// strict modeで実行する
+'use strict'
+
+```
+
+- callback
+	- 全ての非同期呼び出し
+	- `callback(Error error, Object result)`
+	- error時は、errorに値が入る
+		- 正常時はnull
+- context
+	- `getRemaingingTimeInMillis()` : 残りの実行時間
+
+### Best Practice
+#### ステートはバイブに保存して、Lambda関数はステートレスにする
+- (補足) ステートレスとは?
+	- Client/Server間に状態を持たない
+	- リクエスト1つ1つに必要な情報が全て全て含まれること
+
+#### なるべく非同期を利用
+- 実行数条件に引っかかる場合が多い
+- 非同期
+	- バースト許容
+	- **エラーになって処理が行われないことを防げる**
+- できるだけ非同期で実行することが上手く制御できるコツ
+- API GW + 更新系
+	- APIGWをサービスProxyとして利用
+	- SQS/Kinesisへ突っ込む
+	- ストリームベースで非同期実行する
