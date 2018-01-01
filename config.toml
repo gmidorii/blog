@@ -1,6 +1,11 @@
 baseURL = "https://midorigreen.github.io/blog"
 languageCode = "jp"
 title = "Green Software Engineer Blog"
-theme = "template"
+theme = "beautifulhugo"
 canonifyurls = true
 publishDir = "docs"
+
+pygmentsCodeFences = true
+pygmentsUseClasses = true
+[Params]
+    UseChroma = true
