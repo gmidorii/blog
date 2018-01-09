@@ -292,6 +292,14 @@ this.handler(event, context, callback)
 - Lambda Functionの分割方法
 	- CRUDでは分ける必要はないのか
 
+## AWS Serverless Application Model
+- CloudFormationの拡張
+- YAML/JSONで定義
+- SAM形式でCfnのテンプレートを書く
+- aws-sam-localでローカル環境で実行できる
+	- 公式が提供
 
 ## 参考
 - [API Gateway + Lambdaステージとエイリアスを使ってバージョン管理してみた](https://dev.classmethod.jp/cloud/aws/version-management-with-api-gateway-and-lambda/)
+- [AWS Serverless Application Model (AWS SAM) を使ってサーバーレスアプリケーションを構築する](https://dev.classmethod.jp/cloud/aws/aws-serverless-application-model/)
+- [aws-sam-local](https://github.com/awslabs/aws-sam-local)
